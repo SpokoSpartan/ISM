@@ -1,0 +1,63 @@
+<div *ngIf="event != null">
+    <div class="container">
+        <section class="jumbotron text-center bg-light" style="margin-top: 3%;">
+            <div class="container">
+                <h1 class="jumbotron-heading" style="margin-bottom: 2%;">{{event.name}}</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table" style="text-align: left;">
+                            <tbody>
+                            <tr>
+                                <td scope="row">Organizer: {{event.ownerName}}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Place: {{event.place}}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Needed players: {{event.nrOfPlayers}}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Willing to play: {{event.membersAmount}}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        {{event.additionalInformation}}
+                    </div>
+                    <div class="col-md-6">
+                        <img src="{{event.imageUrl}}" class="rounded float-right" alt="{{event.imageUrl}}"  style="height: 100%; width: 100%;">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 4%; margin-left: 10%; margin-right: 10%;">
+                    <div class="col-md-12" *ngFor="let comment of event.comments">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-body" style="margin-top: -1%; margin-bottom: -1%;">
+                                {{comment.content}}
+                                <img src="https://image.flaticon.com/icons/svg/395/395848.svg" style="height: 4%; width: 4%; float: right; margin-left: 1%;"
+                                    (click)="removeComment(comment.id)" *ngIf="isRemovableToUser(comment)">
+                                <img src="https://www.flaticon.com/premium-icon/icons/svg/2665/2665123.svg" style="height: 4%; width: 4%; float: right;"
+                                    (click)="editComment(comment.id)" *ngIf="isEditableToUser(comment)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1" *ngFor="let comment of event.comments">
+                    </div>
+                </div>
+                <div style="margin-top: 1%; margin-left: 11%; margin-right: 11%;">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="add-comment" placeholder="Content" label="Add comment" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" (click)="cancelEditing()" *ngIf="isEditingComment">Cancel</button>
+                            <button class="btn btn-primary" type="button" (click)="addCommentPressed()">{{isEditingComment == true ? 'Edit Comment' : 'Add Comment'}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+</div>
+
