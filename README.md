@@ -24,6 +24,12 @@ To compile app:
 
 Frontend app will be available on port 4200. Backend is available on port 8080.
 
+## Accessibility
+App is available on:
+* https://e-sport-client.herokuapp.com
+* https://e-sport-api.herokuapp.com
+
+Sometimes app need some time to start!
 
 ## Functionality
 ##### Login
@@ -48,6 +54,11 @@ User can remove event. If user is not owner of comment button is not visible.
 ##### Remove event
 User can edit event. If user is not owner of comment button is not visible.
 
+##### Vote for event
+User can inform that is interested in event. If user own event post button is not visible.
+
+##### Remove vote for event
+User can remove vote for an event. If user not voted for event then button is not visible.
 
 ##### Validations
 All data are also validated on BE site.
