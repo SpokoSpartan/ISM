@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs";
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {UserResponse} from "../domains/UserResponse";
+import {API_URL} from "../config";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class LoginServiceService {
     body = body.set('username', username);
     body = body.set('password', password);
     let gaveCorrectData = true;
-    await this.http.post<any>('http://localhost:8080/login', body, {withCredentials: true}).toPromise()
+    await this.http.post<any>(API_URL + '/login', body, {withCredentials: true}).toPromise()
         .catch((response: HttpErrorResponse) => {
           if (response.status !== 200) {
             gaveCorrectData = false;
@@ -48,7 +49,7 @@ export class LoginServiceService {
 
   async logout() {
     let gaveCorrectData = true;
-    this.http.post('http://localhost:8080/logout',null, {withCredentials: true}).toPromise()
+    this.http.post(API_URL + '/logout',null, {withCredentials: true}).toPromise()
         .catch((error: HttpErrorResponse) => {
           gaveCorrectData = false;
           return;
@@ -60,7 +61,7 @@ export class LoginServiceService {
 
   async getPrincipalFromAPI() {
     let isStatusOk = true;
-    const response: any = await this.http.get<UserResponse>('http://localhost:8080/user/get', {withCredentials: true}).toPromise()
+    const response: any = await this.http.get<UserResponse>( API_URL + '/user/get', {withCredentials: true}).toPromise()
         .catch((e: HttpErrorResponse) => {
           isStatusOk = false;
           this.logoutUser();

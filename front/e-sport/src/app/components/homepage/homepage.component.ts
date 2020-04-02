@@ -4,6 +4,7 @@ import {EventResponse} from "../../domains/EventResponse";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {LoginServiceService} from "../../services/login-service.service";
+import {API_URL} from "../../config";
 
 @Component({
   selector: 'app-homepage',
@@ -27,7 +28,7 @@ export class HomepageComponent implements OnInit {
   }
 
   getEventList(): Observable<any> {
-    return this.http.get<EventResponse[]>('http://localhost:8080/event/get', {withCredentials: true});
+    return this.http.get<EventResponse[]>(API_URL + '/event/get', {withCredentials: true});
   }
 
   viewButtonClicked(eventId: number) {

@@ -4,6 +4,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {EventResponse} from "../../domains/EventResponse";
 import {CommentResponse} from "../../domains/CommentResponse";
 import {LoginServiceService} from "../../services/login-service.service";
+import {API_URL} from "../../config";
 
 @Component({
   selector: 'app-show-event',
@@ -28,7 +29,7 @@ export class ShowEventComponent implements OnInit {
   }
 
   initEvent(id: string) {
-    return this.http.get<EventResponse>('http://localhost:8080/event/get/{eventId}?eventId='+ id, {withCredentials: true});
+    return this.http.get<EventResponse>(API_URL + '/event/get/{eventId}?eventId='+ id, {withCredentials: true});
   }
 
   addCommentPressed() {
@@ -41,7 +42,7 @@ export class ShowEventComponent implements OnInit {
       if (content == null || content === '') {
         return;
       }
-      this.http.post('http://localhost:8080/comment/create/{eventId}?content=' + content + '&eventId=' + eventId, null, {withCredentials: true})
+      this.http.post(API_URL + '/comment/create/{eventId}?content=' + content + '&eventId=' + eventId, null, {withCredentials: true})
           .subscribe(x => {
             const commentResponse = new CommentResponse(x as number, content, this.userId, new Date());
             this.event.comments.push(commentResponse);
@@ -49,7 +50,7 @@ export class ShowEventComponent implements OnInit {
     } else {
       this.event.comments.forEach(comment => {
         if (comment.id === this.editedComment) {
-          this.http.put('http://localhost:8080/comment/edit/{commentId}?commentId=' + this.editedComment + '&content=' + content, null, {withCredentials: true})
+          this.http.put(API_URL + '/comment/edit/{commentId}?commentId=' + this.editedComment + '&content=' + content, null, {withCredentials: true})
               .subscribe(x => comment.content = content);
         }
       });
@@ -63,7 +64,7 @@ export class ShowEventComponent implements OnInit {
     let comments: Array<CommentResponse> = [];
     this.event.comments.forEach(comment => {
       if (comment.id === id) {
-        this.http.delete('http://localhost:8080/comment/removeComment/{commentId}?commentId='+ id, {withCredentials: true})
+        this.http.delete(API_URL + '/comment/removeComment/{commentId}?commentId='+ id, {withCredentials: true})
             .toPromise().catch((error: HttpErrorResponse) => {
               comments.push(comment);
         });
