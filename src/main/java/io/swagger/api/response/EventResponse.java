@@ -19,6 +19,8 @@ public class EventResponse {
     private List<CommentResponse> comments;
     private String additionalInformation;
 
+    private Boolean canVote;
+
     public EventResponse(Long id, String name, String place, Integer nrOfPlayers,
                          String imageUrl, Long ownerId, String ownerName, Integer membersAmount) {
         this.id = id;
@@ -37,6 +39,10 @@ public class EventResponse {
 
     public void setAdditionalInformation(String additionalInformation) {
         this.additionalInformation = additionalInformation;
+    }
+
+    public void setCanVote(Boolean canVote) {
+        this.canVote = canVote;
     }
 
     public Long getId() {
@@ -80,4 +86,7 @@ public class EventResponse {
         return comments;
     }
 
+    public Boolean getCanVote() {
+        return canVote;
+    }
 }

@@ -8,7 +8,7 @@
                         <table class="table" style="text-align: left;">
                             <tbody>
                             <tr>
-                                <td scope="row">Organizer: {{event.ownerName}}</td>
+                                <td scope="row">Organizer: <a *ngIf="userId !== event.ownerId">{{event.ownerName}}</a><a *ngIf="userId === event.ownerId">You</a></td>
                             </tr>
                             <tr>
                                 <td scope="row">Place: {{event.place}}</td>
@@ -17,7 +17,14 @@
                                 <td scope="row">Needed players: {{event.nrOfPlayers}}</td>
                             </tr>
                             <tr>
-                                <td scope="row">Willing to play: {{event.membersAmount}}</td>
+                                <td scope="row">
+                                    <div>
+                                        Willing to play: {{event.membersAmount}}
+                                        <button class="btn btn-primary" type="button" style="margin-left: 5%;" *ngIf="event.canVote" (click)="wantToPlayPressed(event.id)">I want to play</button>
+                                        <button class="btn btn-primary" type="button" style="margin-left: 5%;" *ngIf="!event.canVote && event.ownerId != userId" (click)="notWantToPlayPressed(event.id)">I don't want to play</button>
+                                    </div>
+
+                                </td>
                             </tr>
                             <tr>
                                 <td scope="row"></td>

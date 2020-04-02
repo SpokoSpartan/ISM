@@ -100,9 +100,23 @@ export class ShowEventComponent implements OnInit {
   }
 
   isRemovableToUser(comment: CommentResponse): boolean {
-    console.log(comment.id);
-    console.log(this.userId);
     return comment.ownerId === this.userId;
+  }
+
+  wantToPlayPressed(eventId: number) {
+      this.http.post(API_URL + '/event/markingAsPlayer/{eventId}?eventId=' + eventId, null, {withCredentials: true})
+          .subscribe(() => {
+              this.event.canVote = false;
+              this.event.membersAmount = this.event.membersAmount + 1;
+          });
+  }
+
+  notWantToPlayPressed(eventId: number) {
+      this.http.post(API_URL + '/event/markingAsNonPlayer/{eventId}?eventId=' + eventId, null, {withCredentials: true})
+          .subscribe(() => {
+              this.event.canVote = true;
+              this.event.membersAmount = this.event.membersAmount - 1;
+          });
   }
 
 }

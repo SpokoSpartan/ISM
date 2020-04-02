@@ -1,5 +1,7 @@
 package io.swagger.api.impl;
 
+import io.swagger.logic.exception.AuthorizationException;
+import io.swagger.logic.exception.CannotVoteEvception;
 import io.swagger.logic.exception.NotFoundException;
 import io.swagger.api.interfaces.EventApi;
 import io.swagger.api.response.EventResponse;
@@ -7,6 +9,7 @@ import io.swagger.logic.service.EventService;
 import io.swagger.model.CreateEventData;
 import io.swagger.model.Events;
 import io.swagger.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +51,7 @@ public class EventController implements EventApi {
     }
 
     @Override
-    public ResponseEntity<EventResponse> presentEvent(Long eventId) throws NotFoundException {
+    public ResponseEntity<EventResponse> presentEvent(Long eventId) throws NotFoundException, AuthorizationException {
         return ResponseEntity.ok(eventService.getEvent(eventId));
     }
 
@@ -58,8 +61,15 @@ public class EventController implements EventApi {
     }
 
     @Override
-    public ResponseEntity<Void> markingAsPlayer(BigDecimal eventId) {
-        return null;
+    public ResponseEntity<Void> markingAsPlayer(BigDecimal eventId) throws AuthorizationException, CannotVoteEvception, NotFoundException {
+        eventService.markAsMember(eventId.longValue());
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Void> markingAsNonPlayer(BigDecimal eventId) throws AuthorizationException, NotFoundException {
+        eventService.markAsNotMember(eventId.longValue());
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @Override

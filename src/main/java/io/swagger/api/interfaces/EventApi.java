@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
 import io.swagger.annotations.AuthorizationScope;
+import io.swagger.logic.exception.AuthorizationException;
+import io.swagger.logic.exception.CannotVoteEvception;
 import io.swagger.logic.exception.NotFoundException;
 import io.swagger.api.response.EventResponse;
 import io.swagger.model.CreateEventData;
@@ -100,7 +102,7 @@ public interface EventApi {
             produces = {"application/json"},
             method = RequestMethod.GET)
     ResponseEntity<EventResponse> presentEvent(@ApiParam(value = "ID of event to present", required = true) @PathVariable("eventId") Long eventId
-    ) throws NotFoundException;
+    ) throws NotFoundException, AuthorizationException;
 
     @ApiOperation(value = "Present list of searched event", nickname = "searchEvent", response = Events.class, responseContainer = "List", authorizations = {
             @Authorization(value = "petstore_auth", scopes = {
@@ -129,7 +131,21 @@ public interface EventApi {
     @RequestMapping(
             value = "/markingAsPlayer/{eventId}",
             method = RequestMethod.POST)
-    ResponseEntity<Void> markingAsPlayer(@ApiParam(value = "Event to mark as member", required = true) @PathVariable("eventId") BigDecimal eventId);
+    ResponseEntity<Void> markingAsPlayer(@ApiParam(value = "Event to mark as not member", required = true) @PathVariable("eventId") BigDecimal eventId) throws AuthorizationException, CannotVoteEvception, NotFoundException;
+
+    @ApiOperation(value = "Add information about removing information beeing player", nickname = "markingAsNonPlayer", authorizations = {
+            @Authorization(value = "petstore_auth", scopes = {
+                    @AuthorizationScope(scope = "write", description = "modify data"),
+                    @AuthorizationScope(scope = "read", description = "read data")
+            })})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "User marked as not member"),
+            @ApiResponse(code = 403, message = "User does not have access to this applicaion"),
+            @ApiResponse(code = 404, message = "Event not found")})
+    @RequestMapping(
+            value = "/markingAsNonPlayer/{eventId}",
+            method = RequestMethod.POST)
+    ResponseEntity<Void> markingAsNonPlayer(@ApiParam(value = "Event to mark as member", required = true) @PathVariable("eventId") BigDecimal eventId) throws AuthorizationException, NotFoundException;
 
     @ApiOperation(value = "Get all user event", nickname = "gettingUserEvent", notes = "", response = Events.class, responseContainer = "List", authorizations = {
             @Authorization(value = "petstore_auth", scopes = {

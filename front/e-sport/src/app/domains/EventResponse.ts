@@ -12,4 +12,5 @@ export class EventResponse {
     ownerId: number;
     ownerName: string;
     place: string;
+    canVote: boolean;
 }
