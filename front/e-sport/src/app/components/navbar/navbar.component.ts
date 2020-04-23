@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginServiceService} from "../../services/login-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,7 @@ import {LoginServiceService} from "../../services/login-service.service";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private loginService: LoginServiceService) { }
+  constructor(private loginService: LoginServiceService, private router: Router) { }
 
   username: string;
   userId: number;
@@ -16,11 +17,16 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.getUsername().subscribe(username => this.username = username);
     this.loginService.getuseId().subscribe(userId => {
-      this.userId = userId
+      this.userId = userId;
     });
   }
 
   logout() {
     this.loginService.logout();
   }
+
+  statisticsButtonClicked() {
+    this.router.navigateByUrl('/stats');
+  }
+
 }

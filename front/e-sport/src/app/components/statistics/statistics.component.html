@@ -1,0 +1,39 @@
+<div class="container">
+    <section class="jumbotron text-center bg-light" style="margin-top: 3%;">
+        <div class="container">
+            <h1 class="jumbotron-heading">Statistics</h1>
+            <p class="lead text-muted">
+                Below there are statistics showing the number of calls of a particular method.
+            </p>
+        </div>
+    </section>
+
+    <div class="form-group">
+        <select class="form-control form-control-lg" id="select" (change)="changeStatsPress()">
+            <option *ngFor="let statistic of availableStatistics">{{statistic}}</option>
+        </select>
+    </div>
+
+    <div class="chart-wrapper" *ngIf="isMainChartSelected">
+        <canvas baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+        </canvas>
+    </div>
+
+    <div class="chart-wrapper" *ngIf="!isMainChartSelected" style="margin-bottom: 15%;">
+        <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [plugins]="lineChartPlugins"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType">
+        </canvas>
+    </div>
+
+</div>

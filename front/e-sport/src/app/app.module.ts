@@ -10,6 +10,8 @@ import {routes} from "./routes";
 import {Router, RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {LoginComponent} from './components/login/login.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import {ChartsModule} from "ng2-charts";
 
 
 @Injectable()
@@ -29,13 +31,15 @@ class UIErrorHandler extends ErrorHandler {
         NavbarComponent,
         HomepageComponent,
         ShowEventComponent,
-        LoginComponent
+        LoginComponent,
+        StatisticsComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         RouterModule.forRoot(routes),
-        HttpClientModule
+        HttpClientModule,
+        ChartsModule
     ],
     providers: [
         UIErrorHandler,
